@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">Morpling Weather</string>
     <string name="no_data">No data</string>
-    <string name="temp">0.0 C</string>
-    <string name="tempLable">TEMP</string>
-    <string name="ProbPrecip">PRECIP</string>
-    <string name="climaDiario">CLIMA DIARIO</string>
-    <string name="ClimaxHora">Clima por hora</string>
+    <string name="temp_placeholder">%d C</string>
+    <string name="precip_placeholder">%d %%</string>
+    <string name="tempLable">Temperature</string>
+    <string name="ProbPrecip">Precipitation</string>
+    <string name="climaDiario">Daily Weather</string>
+    <string name="ClimaxHora">Hourly Weather</string>
+    <string name="language">en</string>
+    <string name="units">si</string>
 </resources>

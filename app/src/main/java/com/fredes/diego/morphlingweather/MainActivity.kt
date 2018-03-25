@@ -1,6 +1,7 @@
 package com.fredes.diego.morphlingweather
 
 import android.app.Activity
+import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.res.ResourcesCompat
@@ -18,44 +19,63 @@ import com.fredes.diego.morphlingweather.API.icon
 import com.fredes.diego.morphlingweather.Models.CurrentWeather
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
-
+import android.location.LocationManager
+import android.content.Context.LOCATION_SERVICE
+import android.support.design.widget.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
     val TAG= MainActivity::class.java.simpleName
     val jsonParser = JSONParser()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val latitud = "37.8267"
-        val longitud = "-122.4233"
-        val url = "$DARK_SKY_URL/$API_KEY/$latitud,$longitud?lang=es&units=si"
+        txtTemp.text = getString(R.string.temp_placeholder,0)
+        txtPrec.text= getString(R.string.precip_placeholder,0)
+        getWeather()
+    }
 
-       //Log.d(TAG,url)
+    private fun getWeather() {
+        val latitud = "-33.4976146"//"37.8267"
+        val longitud = "-70.6038334"//"-122.4233"
+        val language = getString(R.string.language)
+        val units = getString(R.string.units)
 
+        val url = "$DARK_SKY_URL/$API_KEY/$latitud,$longitud?lang=$language&units=$units"
 
-    var queue = Volley.newRequestQueue(this)
+        Log.d(TAG, url)
 
-    var stringRequest = StringRequest(Request.Method.GET, url,
-            Response.Listener { response ->
-                //1 obtener el clima actual con la clase JSONParser
-                val responseJSON = JSONObject(response)
-                val currentWeather = jsonParser.getCurrentWeatherFromJson(responseJSON)
-                //2 asignar los valores a las vistas
-                buildCurrentWeatherUI(currentWeather)
+        var queue = Volley.newRequestQueue(this)
 
-                Log.d(TAG,"la respuesta es" + response.substring(0, 500))
-            }, Response.ErrorListener {
-                Log.d(TAG,"error en la llamada")
-            })
+        var stringRequest = StringRequest(Request.Method.GET, url,
+                Response.Listener { response ->
+                    //1 obtener el clima actual con la clase JSONParser
+                    val responseJSON = JSONObject(response)
+                    val currentWeather = jsonParser.getCurrentWeatherFromJson(responseJSON)
+                    //2 asignar los valores a las vistas
+                    buildCurrentWeatherUI(currentWeather)
+                    Log.d(TAG, "la respuesta es" + response.substring(0, 500))
+                }, Response.ErrorListener {
 
+            Log.d(TAG, "error en la llamada")
+            displayErrorMessage()
+        })
+        queue.add(stringRequest)
+    }
 
-    queue.add(stringRequest)
+    private fun displayErrorMessage() {
+        val snackbar = Snackbar.make(main, "Error de red", Snackbar.LENGTH_INDEFINITE)
+                .setAction("Reintentar", {
+                    getWeather()
+                })
+        snackbar.show()
     }
 
     private fun buildCurrentWeatherUI(currentWeather: CurrentWeather) {
-        txtTemp.text = "${currentWeather.temp.toString()}C°"
-        txtPrec.text="${currentWeather.precip.toString()}%"
+        val precipProbability = (currentWeather.precip.toInt()*100).toInt()
+        txtTemp.text = getString(R.string.temp_placeholder,currentWeather.temp.toInt())
+        txtPrec.text= getString(R.string.precip_placeholder,precipProbability)
         txtEstado.text = currentWeather.summary
         img.setImageDrawable(ResourcesCompat.getDrawable(resources,currentWeather.getIconResource(),null))
     }

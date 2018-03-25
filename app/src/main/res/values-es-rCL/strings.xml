@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Morpling</string>
+    <string name="no_data">Sin datos</string>
+    <string name="temp_placeholder">%d C</string>
+    <string name="precip_placeholder">%d %%</string>
+    <string name="tempLable">Temperatura</string>
+    <string name="ProbPrecip">Precipitacion</string>
+    <string name="climaDiario">Clima diario</string>
+    <string name="ClimaxHora">Clima por hora</string>
+    <string name="language">en</string>
+    <string name="units">si</string>
+</resources>
