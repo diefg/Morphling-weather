@@ -1,7 +1,6 @@
-package com.fredes.diego.morphlingweather
+package com.fredes.diego.morphlingweather.UI
 
-import android.app.Activity
-import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.content.res.ResourcesCompat
@@ -10,18 +9,15 @@ import com.android.volley.Request
 import com.fredes.diego.morphlingweather.API.API_KEY
 import com.fredes.diego.morphlingweather.API.DARK_SKY_URL
 import com.android.volley.toolbox.Volley
-import com.android.volley.RequestQueue
 import com.android.volley.Response
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.fredes.diego.morphlingweather.API.JSONParser
-import com.fredes.diego.morphlingweather.API.icon
 import com.fredes.diego.morphlingweather.Models.CurrentWeather
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
-import android.location.LocationManager
-import android.content.Context.LOCATION_SERVICE
 import android.support.design.widget.Snackbar
+import android.view.View
+import com.fredes.diego.morphlingweather.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -65,8 +61,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun displayErrorMessage() {
-        val snackbar = Snackbar.make(main, "Error de red", Snackbar.LENGTH_INDEFINITE)
-                .setAction("Reintentar", {
+        val snackbar = Snackbar.make(main, getString(R.string.network_error), Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(R.string.retry), {
                     getWeather()
                 })
         snackbar.show()
@@ -78,5 +74,15 @@ class MainActivity : AppCompatActivity() {
         txtPrec.text= getString(R.string.precip_placeholder,precipProbability)
         txtEstado.text = currentWeather.summary
         img.setImageDrawable(ResourcesCompat.getDrawable(resources,currentWeather.getIconResource(),null))
+    }
+    fun startHourlyActivity(view: View){
+        val intent = Intent()
+        intent.setClass(this,HourlyWeatherActivity::class.java)
+        startActivity(intent)
+    }
+    fun startDailyWeather(view: View){
+        val intent = Intent()
+        intent.setClass(this,DailyWeatherActivity::class.java)
+        startActivity(intent)
     }
 }

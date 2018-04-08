@@ -9,4 +9,9 @@
     <string name="ClimaxHora">Hourly Weather</string>
     <string name="language">en</string>
     <string name="units">si</string>
+    <string name="network_error">Network error</string>
+    <string name="retry">retry?</string>
+    <string name="daily_weather_text">Daily Weather</string>
+    <string name="summary_Txt">Summary of the week</string>
+
 </resources>

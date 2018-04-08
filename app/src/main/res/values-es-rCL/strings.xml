@@ -10,4 +10,6 @@
     <string name="ClimaxHora">Clima por hora</string>
     <string name="language">en</string>
     <string name="units">si</string>
+    <string name="network_error">Error de red</string>
+    <string name="retry">Reintentar?</string>
 </resources>
